@@ -1,11 +1,24 @@
-const express = require("express");
-const server = express();
-const port = 3000;
+const dotenv = require("dotenv");
 
-server.get("/", (req, res) => {
-  res.send("Hello, Worldy Swirldy!");
+const express = require("express");
+const cors = require("cors");
+dotenv.config();
+
+const app = express();
+const serverPort = process.env.SERVER_PORT;
+
+app.use(cors());
+app.use(express.json());
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong! Try again" });
 });
 
-server.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.get("/", (req, res) => {
+  res.json({ message: "Hello from appy dappy!" });
+});
+
+app.listen(serverPort, () => {
+  console.log(`Server is running at http://localhost:${serverPort}`);
 });
