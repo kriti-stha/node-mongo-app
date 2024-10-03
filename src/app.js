@@ -9,9 +9,9 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
-import { postData } from "./helpers/api";
+import { postData } from "helpers/api";
 
-function App() {
+const App = () => {
   const url = " http://localhost:8000/person/";
 
   const [firstName, setFirstName] = useState("");
@@ -104,6 +104,6 @@ function App() {
       </Box>
     </ChakraProvider>
   );
-}
+};
 
 export default App;
