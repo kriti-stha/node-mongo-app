@@ -1,9 +1,6 @@
 const dotenv = require("dotenv").config();
 const { MongoClient } = require("mongodb");
 
-const connectionStr =
-  "mongodb+srv://kritishrestha:6D760rhOM7UgnXqj@kritiscluster.tclbh.mongodb.net/?retryWrites=true&w=majority&appName=KritisCluster";
-
 // Your MongoDB URI
 const uri = process.env.DB_URI;
 console.log("MongoDB URI:", uri);
