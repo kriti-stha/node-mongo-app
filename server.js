@@ -13,13 +13,11 @@ app.use(cors()); //middleware
 
 app.use(express.json()); //also a middleware
 
-const persons = [
-  { id: 1, name: "kriti", course: "IT" },
-  { id: 2, name: "shrestha", course: "Computer science" },
-];
+const persons = [];
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from my app!" });
+  // res.json({ message: "Hello from my app!" },);
+  res.send({ persons });
 });
 
 app.get("/status", (req, res) => {
@@ -46,10 +44,11 @@ app.get("/person/:id", (req, res, next) => {
 
 app.post("/person", (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-    course: Joi.string().min(2).required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    course: Joi.string().required(),
+    age: Joi.number().required(),
   });
-  const validation = schema.validate(req.body);
   const { error: validationError } = schema.validate(req.body);
 
   if (validationError) {
@@ -61,11 +60,14 @@ app.post("/person", (req, res, next) => {
   } else {
     const addPerson = {
       id: persons.length + 1,
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      age: req.body.age,
       course: req.body.course,
     };
     persons.push(addPerson);
     res.send(addPerson);
+    console.log({ persons });
   }
 });
 
@@ -84,7 +86,7 @@ app.get("/error", (_req, _res, next) => {
 app.use((err, _req, res, _next) => {
   //params need to be in this order and needs to include them all
   //the .use method needs to be placed AFTER the route handlers
-  res.status(err.statusCode || 500); 
+  res.status(err.statusCode || 500);
   res.json({ error: err.message || "Something went wrong! Please try again!" });
 });
 
